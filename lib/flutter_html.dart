@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_html/html_parser.dart';
 import 'package:flutter_html/image_render.dart';
 import 'package:flutter_html/src/html_elements.dart';
+import 'package:flutter_html/src/utils.dart';
 import 'package:flutter_html/style.dart';
 import 'package:html/dom.dart' as dom;
 import 'package:webview_flutter/webview_flutter.dart';
@@ -21,7 +22,12 @@ export 'package:flutter_html/src/styled_element.dart';
 //export style api
 export 'package:flutter_html/style.dart';
 
-class Html extends StatelessWidget {
+// Interface for unify root access to media controllers
+abstract class Parser {
+  InternalControllers get controllers;
+}
+
+class Html extends StatelessWidget implements Parser {
   /// The `Html` widget takes HTML as input and displays a RichText
   /// tree of the parsed HTML content.
   ///
@@ -148,6 +154,20 @@ class Html extends StatelessWidget {
     ..addAll(TABLE_CELL_ELEMENTS)
     ..addAll(TABLE_DEFINITION_ELEMENTS);
 
+  final InternalControllers controllers = InternalControllers();
+
+  void dispose() {
+    controllers.chewieAudioControllers.forEach((element) {
+      element.dispose();
+    });
+    controllers.chewieControllers.forEach((element) {
+      element.dispose();
+    });
+    controllers.videoPlayerControllers.forEach((element) {
+      element.dispose();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final dom.Document doc =
@@ -174,12 +194,13 @@ class Html extends StatelessWidget {
           ..addAll(defaultImageRenders),
         tagsList: tagsList.isEmpty ? Html.tags : tagsList,
         navigationDelegateForIframe: navigationDelegateForIframe,
+        root: this,
       ),
     );
   }
 }
 
-class SelectableHtml extends StatelessWidget {
+class SelectableHtml extends StatelessWidget implements Parser {
   /// The `SelectableHtml` widget takes HTML as input and displays a RichText
   /// tree of the parsed HTML content (which is selectable)
   ///
@@ -278,6 +299,20 @@ class SelectableHtml extends StatelessWidget {
 
   static List<String> get tags => new List<String>.from(SELECTABLE_ELEMENTS);
 
+  final InternalControllers controllers = InternalControllers();
+
+  void dispose() {
+    controllers.chewieAudioControllers.forEach((element) {
+      element.dispose();
+    });
+    controllers.chewieControllers.forEach((element) {
+      element.dispose();
+    });
+    controllers.videoPlayerControllers.forEach((element) {
+      element.dispose();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final dom.Document doc = data != null ? HtmlParser.parseHTML(data!) : document!;
@@ -302,6 +337,7 @@ class SelectableHtml extends StatelessWidget {
         tagsList: tagsList.isEmpty ? SelectableHtml.tags : tagsList,
         navigationDelegateForIframe: null,
         selectionControls: selectionControls,
+        root: this,
       ),
     );
   }
