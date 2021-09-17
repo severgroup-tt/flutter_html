@@ -81,9 +81,21 @@ class CustomBorderSide {
 }
 
 class InternalControllers {
-  List<ChewieAudioController> chewieAudioControllers = [];
-  List<ChewieController> chewieControllers = [];
-  List<VideoPlayerController> videoPlayerControllers = [];
+  final List<ChewieAudioController> chewieAudioControllers = [];
+  final List<ChewieController> chewieControllers = [];
+  final List<VideoPlayerController> videoPlayerControllers = [];
+
+  void dispose() {
+    chewieAudioControllers.forEach((element) {
+      element.dispose();
+    });
+    chewieControllers.forEach((element) {
+      element.dispose();
+    });
+    videoPlayerControllers.forEach((element) {
+      element.dispose();
+    });
+  }
 }
 
 String getRandString(int len) {

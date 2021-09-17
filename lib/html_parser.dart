@@ -59,7 +59,7 @@ class HtmlParser extends StatelessWidget {
   final NavigationDelegate? navigationDelegateForIframe;
   final OnTap? _onAnchorTap;
   final TextSelectionControls? selectionControls;
-  final Parser root;
+  final dynamic root;
 
   HtmlParser({
     required this.key,

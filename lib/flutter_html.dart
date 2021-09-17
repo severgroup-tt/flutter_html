@@ -22,12 +22,12 @@ export 'package:flutter_html/src/styled_element.dart';
 //export style api
 export 'package:flutter_html/style.dart';
 
-// Interface for unify root access to media controllers
-abstract class Parser {
-  InternalControllers get controllers;
+// Mixin which managing disposing of media controllers
+mixin ControllersMixin {
+  final InternalControllers controllers = InternalControllers();
 }
 
-class Html extends StatelessWidget implements Parser {
+class Html extends StatelessWidget with ControllersMixin {
   /// The `Html` widget takes HTML as input and displays a RichText
   /// tree of the parsed HTML content.
   ///
@@ -154,18 +154,8 @@ class Html extends StatelessWidget implements Parser {
     ..addAll(TABLE_CELL_ELEMENTS)
     ..addAll(TABLE_DEFINITION_ELEMENTS);
 
-  final InternalControllers controllers = InternalControllers();
-
   void dispose() {
-    controllers.chewieAudioControllers.forEach((element) {
-      element.dispose();
-    });
-    controllers.chewieControllers.forEach((element) {
-      element.dispose();
-    });
-    controllers.videoPlayerControllers.forEach((element) {
-      element.dispose();
-    });
+    controllers.dispose();
   }
 
   @override
@@ -200,7 +190,7 @@ class Html extends StatelessWidget implements Parser {
   }
 }
 
-class SelectableHtml extends StatelessWidget implements Parser {
+class SelectableHtml extends StatelessWidget with ControllersMixin {
   /// The `SelectableHtml` widget takes HTML as input and displays a RichText
   /// tree of the parsed HTML content (which is selectable)
   ///
@@ -299,18 +289,8 @@ class SelectableHtml extends StatelessWidget implements Parser {
 
   static List<String> get tags => new List<String>.from(SELECTABLE_ELEMENTS);
 
-  final InternalControllers controllers = InternalControllers();
-
   void dispose() {
-    controllers.chewieAudioControllers.forEach((element) {
-      element.dispose();
-    });
-    controllers.chewieControllers.forEach((element) {
-      element.dispose();
-    });
-    controllers.videoPlayerControllers.forEach((element) {
-      element.dispose();
-    });
+    controllers.dispose();
   }
 
   @override
