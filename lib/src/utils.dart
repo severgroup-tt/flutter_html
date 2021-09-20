@@ -1,8 +1,11 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:chewie/chewie.dart';
+import 'package:chewie_audio/chewie_audio.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 
 Map<String, String> namedColors = {
   "White": "#FFFFFF",
@@ -75,6 +78,24 @@ class CustomBorderSide {
   Color? color;
   double width;
   BorderStyle style;
+}
+
+class InternalControllers {
+  final List<ChewieAudioController> chewieAudioControllers = [];
+  final List<ChewieController> chewieControllers = [];
+  final List<VideoPlayerController> videoPlayerControllers = [];
+
+  void dispose() {
+    chewieAudioControllers.forEach((element) {
+      element.dispose();
+    });
+    chewieControllers.forEach((element) {
+      element.dispose();
+    });
+    videoPlayerControllers.forEach((element) {
+      element.dispose();
+    });
+  }
 }
 
 String getRandString(int len) {

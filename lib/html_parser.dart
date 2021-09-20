@@ -59,6 +59,7 @@ class HtmlParser extends StatelessWidget {
   final NavigationDelegate? navigationDelegateForIframe;
   final OnTap? _onAnchorTap;
   final TextSelectionControls? selectionControls;
+  final dynamic root;
 
   HtmlParser({
     required this.key,
@@ -76,7 +77,8 @@ class HtmlParser extends StatelessWidget {
     required this.imageRenders,
     required this.tagsList,
     required this.navigationDelegateForIframe,
-    this.selectionControls
+    this.selectionControls,
+    required this.root,
   })  : this._onAnchorTap = onAnchorTap != null
           ? onAnchorTap
           : key != null
