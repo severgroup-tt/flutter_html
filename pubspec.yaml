@@ -2,6 +2,7 @@ name: flutter_html
 description: A Flutter widget rendering static HTML and CSS as Flutter widgets.
 version: 2.1.2
 homepage: https://github.com/Sub6Resources/flutter_html
+publish_to: none
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -41,6 +42,13 @@ dependencies:
 
   flutter:
     sdk: flutter
+
+dependency_overrides:
+  video_player:
+    git:
+      url: https://github.com/severgroup-tt/plugins.git
+      path: packages/video_player/video_player
+      ref: fix/playing-audio-in-video-player-on-ios
 
 dev_dependencies:
   flutter_test:
