@@ -125,6 +125,7 @@ class AudioContentElement extends ReplacedElement {
   Widget toWidget(RenderContext context) {
     final VideoPlayerController videoPlayerController = VideoPlayerController.network(
       src.first ?? "",
+      isAudio: true,
     );
     final ChewieAudioController chewieAudioController = ChewieAudioController(
       videoPlayerController: videoPlayerController,
