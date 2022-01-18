@@ -48,6 +48,7 @@ dependency_overrides:
     git:
       url: https://github.com/severgroup-tt/plugins.git
       path: packages/video_player/video_player
+      ref: 6bf1ecca33becd30282a10d3c646788eb39f8164
 
 dev_dependencies:
   flutter_test:
